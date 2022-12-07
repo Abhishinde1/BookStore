@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable quotes */
 /* eslint-disable prettier/prettier */
 import HttpStatus from 'http-status-codes';
@@ -34,4 +35,18 @@ export const loginUser = async (req, res, next) => {
 }catch (error) {
   next(error);
 }
+};
+
+//forgot password
+export const forgotPwd = async (req, res, next) => {
+  try {
+    const data = await UserService.forgotPwd(req.body);
+    res.status(HttpStatus.ACCEPTED).json({
+      code: HttpStatus.ACCEPTED,
+      data: data,
+      message: "link to reset a password sent to your emailId "
+    });
+}catch (error) {
+  next(error);
 }
+};

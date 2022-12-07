@@ -1,4 +1,8 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
+/* eslint-disable eqeqeq */
+/* eslint-disable max-len */
+/* eslint-disable prettier/prettier */
 import User from '../models/user.model';
 import bcrypt from'bcrypt';
 //get all users
@@ -34,5 +38,18 @@ export const loginUser = async (body) => {
     }
   } else {
     throw new Error('email is Invalid');
+  }
+};
+
+//forgot password
+export const forgotPwd = async (body) => {
+  const data = await User.findOne({ email: body.email });
+  if (data != null) {
+    var token = jwt.sign({ Firstname: data.Firstname, EmailId: data.EmailId }, process.env.SECRET_KEY);
+    sendMail(body.EmailId)
+    return token;
+
+  } else {
+    throw new Error("Invalid Email");
   }
 };

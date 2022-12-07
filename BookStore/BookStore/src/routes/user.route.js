@@ -12,4 +12,7 @@ router.post('/Register', newUserValidator, userController.NewUserregistration);
 //route to login a new user
 router.post('/login', userController.loginUser);
 
+//route to forgot password
+router.post('/forgotpwd', userController.forgotPwd);
+
 export default router;

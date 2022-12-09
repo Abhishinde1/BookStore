@@ -15,8 +15,8 @@ export const getAllUsers = async () => {
 export const NewUserregistration = async (body) => {
   {
     const saltRounds=10;
-    const hashPassaword=await bcrypt.hash(body.Password,saltRounds);
-    body.Password=hashPassaword;
+    const hashpassaword=await bcrypt.hash(body.password,saltRounds);
+    body.password=hashpassaword;
     const data = await User.create(body);
     return data;
   }

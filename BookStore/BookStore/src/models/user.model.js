@@ -12,7 +12,7 @@ const userSchema = new Schema(
     EmailId: {
       type: String
     },
-    Password: {
+    password: {
       type: String
     }
   },

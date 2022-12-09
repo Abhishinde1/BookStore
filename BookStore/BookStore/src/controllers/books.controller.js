@@ -32,7 +32,7 @@ import * as bookservice from '../services/books.service'
  */
  export const Getbook = async (req, res) => {
     try {
-      const data = await bookservice.Getbook(req.params._id);
+      const data = await bookservice.Getbook(req.params._id, req.body);
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,

@@ -34,26 +34,24 @@ import jwt from 'jsonwebtoken';
         }
       };
 
-
-
 /*Middleware  for books*/
-export const userAuthentication= async (req, res, next) => {
+export const userAuthentication = async (req, res, next) => {
   try {
-    let bearerToken = req.header('Authorization'); 
+    let bearerToken = req.header('Authorization');
     if (!bearerToken)
       throw {
         code: HttpStatus.BAD_REQUEST,
         message: 'Authorization token is required'
       };
     bearerToken = bearerToken.split(' ')[1];
-    
-    const user = await jwt.verify(bearerToken, process.env.SECRET_KEY);
-    req.body.UserId=user.EmailId;
+
+    const { user } = await jwt.verify(bearerToken, 'your-secret-key');
+    req.body.EmailId = user.EmailId;
     next();
   } catch (error) {
     res.status(HttpStatus.UNAUTHORIZED).json({
-      code:HttpStatus.UNAUTHORIZED,
-      message:`${error}`
+      code: HttpStatus.UNAUTHORIZED,
+      message: `${error}`
     });
   }
 };

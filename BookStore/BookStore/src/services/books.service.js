@@ -17,5 +17,6 @@ export const getAllbooks = async () => {
   //get a Book by id
   export const Getbook = async (_id) => {
     const data = await Books.findById({ _id: _id});
+    console.log('data=============>',data);
     return data;
   };

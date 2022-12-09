@@ -23,20 +23,24 @@ import * as UserService from '../services/user.service';
   }
 };
 
-//user login
-export const loginUser = async (req, res, next) => {
+/**
+ * Controller to loginuser a user
+ * @param  {object} req - request object
+ * @param {object} res - response object
+ * @param {Function} next
+ */
+ export const Userlogin = async (req, res, next) => {
   try {
-    const data = await UserService.loginUser(req.body);
-    res.status(HttpStatus.ACCEPTED).json({
-      code: HttpStatus.ACCEPTED,
+    const data = await UserService.Userlogin(req.body);
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
       data: data,
-      message: "user login successfully "
+      message: 'User login successfully'
     });
-}catch (error) {
-  next(error);
-}
+  } catch (error) {
+    next(error);
+  }
 };
-
 //forgot password
 export const forgotPwd = async (req, res, next) => {
   try {

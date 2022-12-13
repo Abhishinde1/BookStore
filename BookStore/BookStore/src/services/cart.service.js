@@ -6,6 +6,7 @@
 /* eslint-disable prettier/prettier */
 import Cart from '../models/cart.model';
 import Book from '../models/books.model';
+// import { check } from 'prettier';
 //  import { books } from 'googleapis/build/src/apis/books';
 
 //add books to cart
@@ -88,23 +89,34 @@ export const removeBook = async (EmailId, params_book_id) => {
 };
 
 //remove books from cart
-export const removeBookFromCart = async (body, book_id) => {
-    const cart = await Cart.findOne({ userId: body.userId });
-    if (cart !== null) {
-      const ifBookPresent = cart.books.find(
-        (book) => book._id.toString() === book_id.toString()
-      );
-      console.log(' remove book if existing', ifBookPresent);
-      if (ifBookPresent) {
-        cart.books.remove(ifBookPresent);
-        cart.cart_total -= (ifBookPresent.price*ifBookPresent.quantity);
-        cart.save();
-        return cart;
-      } else {
-        throw new Error('book is not in cart');
-      }
+
+export const removeBookFromCart = async (EmailId, params_book_id) => {
+    const checkCart = await Cart.findOne({ userId: EmailId });
+    if (checkCart) {
+        console.log("If User Exists");
+        let bookFound = false
+        let totalPrice = 0
+        let bookquanitity = 0
+        checkCart.books.forEach(element => {
+            if (element.productId == params_book_id) {
+                element.quantity = element.quantity -= 1
+                bookquanitity=element.quantity
+                totalPrice = totalPrice - (element.price * element.quantity);
+                let indexofelement = checkCart.books.indexOf(element);
+                console.log("If Book found");
+                checkCart.books.splice(indexofelement, 1)
+                bookFound = true
+            }
+        });
+        console.log("After deleting the book",checkCart.books);
+        if (bookFound == false) {
+            console.log("If Book not found");
+            throw new Error("Book not in the cart");
+        }
+
+        const updatedCart = await Cart.findOneAndUpdate({ userId: EmailId}, { books: checkCart.books,cart_total: totalPrice}, { new: true })
+        return updatedCart
+    } else {
+        throw new Error("User cart doesn't exist");
     }
-    else {
-      throw new Error('cart is not created');
-    }
-  };
+};

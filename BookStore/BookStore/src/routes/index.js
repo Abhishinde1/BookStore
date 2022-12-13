@@ -19,6 +19,8 @@ const routes = () => {
   router.use('/users', userRoute);
   router.use('/books', booksRoute);
   router.use('/carts', cartRoute);
+  router.use('/wishlist', cartRoute);
+
 
   return router;
 };

@@ -21,4 +21,16 @@ export const addBookToWishlist = async (req, res) => {
     }
 };
 
-
+//remove from Wishlist
+export const removeproductFromWishlist = async (req, res, next) => {
+  try {
+      const data = await wishlistService.removeproductFromWishlist(req.body.email, req.params._id);
+      res.status(HttpStatus.CREATED).json({
+          code: HttpStatus.CREATED,
+          data: data,
+          message: 'Product removed from Wishlist!!!!!!'
+      });
+  } catch (error) {
+      next(error);
+  }
+};
